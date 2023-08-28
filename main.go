@@ -2,6 +2,7 @@ package main
 
 import (
 	"unify/internal/database"
+	"unify/internal/handler"
 	"unify/validation"
 
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,10 @@ func main() {
 
 	r := gin.Default()
 	validation.CORS(r)
-	validation.SessionConfig(r)
 	database.TestSQL()
-
+	r.GET("/item/top", handler.Top)
+	r.GET("/item/recommend", handler.List)
+	r.GET("/item/details", handler.Item_Details)
+	r.GET("/item/category", handler.Category)
 	r.Run(":8080") // 0.0.0.0:8080 でサーバーを立てます。
 }

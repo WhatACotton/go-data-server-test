@@ -1,23 +1,80 @@
 openapi: "3.0.2"
 info:
-  title: API Title
+  title: Charis-Bracelet database-API
   version: "1.0"
 servers:
   - url: http://localhost:8080
+tags:
+  - name: Item
+    description: '商品に関するAPI'
+  - name: Auth
+    description: '管理用API Basic認証が必要です。'
 paths:
-  /item/{Item_ID}:
-    parameters:
+  /item/top:
+    get:
+      tags:
+        - Item
+      description: 'トップページ用の商品一覧を取得します。'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Top_Item_List'
+  /item/recommend:
+    get:
+      tags:
+        - Item
+      description: 'おすすめ商品を取得します。'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item_List'
+  /item/recommend/{Item_ID}:
+    post:
+      parameters:
       - name: Item_ID
-        in: Query
+        in: query
         required: true
         schema:
-          type: integer
-          minimum: 1
-          maximum: 3
-          value: 'Item_ID_1'
-     
+          type: string
+          default: 'Item_ID_1'
+      tags:
+        - Auth
+      description: 'おすすめ商品を登録します。'
+      responses:
+        '200':
+          description: OK
+    delete:
+      parameters:
+      - name: Item_ID
+        in: query
+        required: true
+        schema:
+          type: string
+          default: 'Item_ID_1'
+      tags:
+        - Auth
+      description: 'おすすめ商品を削除します。'
+      responses:
+        '200':
+          description: OK
+  /item/{category}:
+    parameters:
+      - name: category
+        in: query
+        required: true
+        schema:
+          type: string
+          default: 'カテゴリ'
     get:
-      description: 'Item一つのデータを取得します。1枚の商品ページ用。'
+      tags:
+        - Item
+      description: 'カテゴリーごとの商品一覧を取得します。'
       responses:
         '200':
           description: OK
@@ -25,31 +82,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
-  # Single square operations
-  /board/{row}/{column}:
+  /item/{Item_ID}:
     parameters:
-      - name: row
-        in: path
+      - name: Item_ID
+        in: query
         required: true
         schema:
-          type: integer
-          minimum: 1
-          maximum: 3
-      - name: column
-        in: path
-        required: true
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 3
+          type: string
+          default: 'Item_ID_1'
     get:
-      summary: Get a single board square
+      tags:
+        - Item
+      description: 'Item一つのデータを取得します。1枚の商品ページ用。'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item_Details'
+  /item/register:
+    post:
+      tags:
+        - Auth
+      description: 'Itemを登録します。'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item_Details'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item_Details'
+
 components:
   schemas:
-    Item:
+    Item_Details:
       type: object
       properties:
         Item_Id:
@@ -76,5 +148,40 @@ components:
         Status:
           type: string
           default: '購入可能かどうか'
+    Item:
+      type: object
+      properties:
+        Item_Id:
+          type: string
+          default: 'Item_ID_1'
+        Item_Name:
+          type: string
+          default: 'Item_Name_1'
+        Stock:
+          type: integer
+          default: 5
+        Price:
+          type: integer
+          default: 1000
+        Status:
+          type: string
+          default: '購入可能かどうか'
+    Item_List:
+      type: array
+      items:
+        $ref: '#/components/schemas/Item'
+    Top_Item:
+      type: object
+      properties:
+        Item_Name:
+          type: string
+          default: 'Item_Name_1'
+        Stock:
+          type: integer
+          default: 5
+    Top_Item_List:
+      type: array
+      items:
+        $ref: '#/components/schemas/Top_Item'
 
         
