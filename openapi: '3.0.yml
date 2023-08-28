@@ -1,0 +1,80 @@
+openapi: "3.0.2"
+info:
+  title: API Title
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+paths:
+  /item/{Item_ID}:
+    parameters:
+      - name: Item_ID
+        in: Query
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 3
+          value: 'Item_ID_1'
+     
+    get:
+      description: 'Item一つのデータを取得します。1枚の商品ページ用。'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  # Single square operations
+  /board/{row}/{column}:
+    parameters:
+      - name: row
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 3
+      - name: column
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 3
+    get:
+      summary: Get a single board square
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        Item_Id:
+          type: string
+          default: 'Item_ID_1'
+        Item_Name:
+          type: string
+          default: 'Item_Name_1'
+        Stock:
+          type: integer
+          default: 5
+        Price:
+          type: integer
+          default: 1000
+        Description:
+          type: string
+          default: '説明'
+        category:
+          type: string
+          default: 'カテゴリ'
+        Keyword:
+          type: string
+          default: 'キーワード'
+        Status:
+          type: string
+          default: '購入可能かどうか'
+
+        
