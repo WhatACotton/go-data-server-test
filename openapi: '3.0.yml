@@ -22,11 +22,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Top_Item_List'
-  /item/recommend:
+  /item/all:
     get:
       tags:
         - Item
-      description: 'おすすめ商品を取得します。'
+      description: '購入可能な商品を取得します。'
       responses:
         '200':
           description: OK
@@ -139,10 +139,10 @@ components:
         Description:
           type: string
           default: '説明'
-        category:
+        Category:
           type: string
           default: 'カテゴリ'
-        Keyword:
+        Key_Word:
           type: string
           default: 'キーワード'
         Status:
