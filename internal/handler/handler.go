@@ -8,20 +8,34 @@ import (
 )
 
 func Top(c *gin.Context) {
-	Top_Item_List, err := database.Top()
+	Top_Item_List, err := database.Get_Top()
 	if err != nil {
 		log.Print(err)
 	}
 	c.JSON(200, Top_Item_List)
 }
-func Recommend(c *gin.Context) {
-	Recommend_Item_List, err := database.Recommend()
+func ALL(c *gin.Context) {
+	Recommend_Item_List, err := database.Get_ALL()
 	if err != nil {
 		log.Print(err)
 	}
 	c.JSON(200, Recommend_Item_List)
 }
 func Item_Details(c *gin.Context) {
+	Item_ID := c.Query("Item_ID")
+	Info_ID, err := database.Get_Info_Id(Item_ID)
+	if err != nil {
+		log.Print(err)
+	}
+	if Info_ID != "Couldn't get" {
+		Item_Details, err := database.Get_Item_Details(Info_ID)
+		if err != nil {
+			log.Print(err)
+		}
+		c.JSON(200, Item_Details)
+	} else {
+		c.JSON(404, "{Not Found}")
+	}
 	// TODO
 }
 func Category(c *gin.Context) {
