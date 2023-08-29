@@ -45,3 +45,11 @@ func Category(c *gin.Context) {
 	}
 	c.JSON(200, Item_List)
 }
+func Color(c *gin.Context) {
+	Color := c.Param("color")
+	Item_List, err := database.Get_Item_Color(Color)
+	if err != nil {
+		log.Print(err)
+	}
+	c.JSON(200, Item_List)
+}

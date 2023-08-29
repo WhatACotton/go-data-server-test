@@ -17,5 +17,6 @@ func main() {
 	r.GET("/item/all", handler.ALL)
 	r.GET("/item/details", handler.Item_Details)
 	r.GET("/item/category/:category", handler.Category)
+	r.GET("/item/color/:color", handler.Color)
 	r.Run(":8080") // 0.0.0.0:8080 でサーバーを立てます。
 }
