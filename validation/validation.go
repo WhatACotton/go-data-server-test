@@ -3,6 +3,7 @@ package validation
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -54,4 +55,12 @@ func GenerateRandomKey() (sessionKey string) {
 func GetUUID() string {
 	uuidObj, _ := uuid.NewUUID()
 	return uuidObj.String()
+}
+
+// ベーシック認証周りの設定
+func Basic(r *gin.Engine) (routergroup *gin.RouterGroup) {
+	authorized := r.Group("/admin", gin.BasicAuth(gin.Accounts{
+		os.Getenv("AUTH_USER"): os.Getenv("AUTH_PASS"),
+	}))
+	return authorized
 }
