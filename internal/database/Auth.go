@@ -53,4 +53,5 @@ func Register_Item(Item Item_Register_Payload) error {
 	if err != nil {
 		return errors.Wrap(err, "error in getting Top_Item /Get_Info_ID_1")
 	}
+	return nil
 }
