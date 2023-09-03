@@ -63,10 +63,10 @@ paths:
       responses:
         '200':
           description: OK
-  /item/{category}:
+  /item/category/:category:
     parameters:
       - name: category
-        in: query
+        in: path
         required: true
         schema:
           type: string
@@ -82,7 +82,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Item'
-  /item/{Item_ID}:
+  /item?{Item_ID}:
     parameters:
       - name: Item_ID
         in: query

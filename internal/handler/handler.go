@@ -15,11 +15,11 @@ func Top(c *gin.Context) {
 	c.JSON(200, Top_Item_List)
 }
 func ALL(c *gin.Context) {
-	Recommend_Item_List, err := database.Get_ALL()
+	Item_List, err := database.Get_ALL()
 	if err != nil {
 		log.Print(err)
 	}
-	c.JSON(200, Recommend_Item_List)
+	c.JSON(200, Item_List)
 }
 func Item_Details(c *gin.Context) {
 	Item_ID := c.Query("Item_ID")
@@ -36,8 +36,20 @@ func Item_Details(c *gin.Context) {
 	} else {
 		c.JSON(404, "{Not Found}")
 	}
-	// TODO
 }
 func Category(c *gin.Context) {
-	// TODO
+	Category := c.Param("category")
+	Item_List, err := database.Get_Item_Category(Category)
+	if err != nil {
+		log.Print(err)
+	}
+	c.JSON(200, Item_List)
+}
+func Color(c *gin.Context) {
+	Color := c.Param("color")
+	Item_List, err := database.Get_Item_Color(Color)
+	if err != nil {
+		log.Print(err)
+	}
+	c.JSON(200, Item_List)
 }
